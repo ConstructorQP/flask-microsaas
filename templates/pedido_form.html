@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}{% if pedido %}Editar pedido{% else %}Nuevo pedido{% endif %}{% endblock %}
+{% block topbar_title %}{% if pedido %}Editar pedido{% else %}Nuevo pedido{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">{% if pedido %}Editar pedido{% else %}Nuevo pedido{% endif %}</h1>
+</div>
+
+<div class="card" style="max-width:860px;">
+  <div class="card-body">
+    <form method="post">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Cliente *</label>
+          <select name="cliente_id" class="form-control" required>
+            <option value="">Seleccione un cliente</option>
+            {% for c in clientes %}
+            <option value="{{ c.id }}" {% if pedido and pedido.cliente_id == c.id %}selected{% endif %}>
+              {{ c.nombre }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select name="estado" class="form-control">
+            {% for est in ['pendiente','procesando','enviado','entregado','cancelado'] %}
+            <option value="{{ est }}" {% if pedido and pedido.estado == est %}selected{% endif %}>
+              {{ est|capitalize }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group form-group-full">
+          <label>Notas</label>
+          <textarea name="notas" class="form-control"
+                    placeholder="Notas internas del pedido...">{{ pedido.notas if pedido else '' }}</textarea>
+        </div>
+      </div>
+
+      <div class="lineas-section">
+        <h3>Líneas de pedido</h3>
+
+        {% for linea in lineas %}
+        <div class="linea-row">
+          <div class="form-group" style="margin:0">
+            <select name="producto_id[]" class="form-control">
+              <option value="">Seleccione producto</option>
+              {% for p in productos %}
+              <option value="{{ p.id }}" {% if p.id == linea.producto_id %}selected{% endif %}>
+                {{ p.nombre }} — {{ "%.2f"|format(p.precio) }} €
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group" style="margin:0">
+            <input type="number" name="cantidad[]" class="form-control"
+                   min="1" value="{{ linea.cantidad }}" placeholder="Cant.">
+          </div>
+          <div class="linea-spacer"></div>
+        </div>
+        {% endfor %}
+
+        {% for i in range(5) %}
+        <div class="linea-row">
+          <div class="form-group" style="margin:0">
+            <select name="producto_id[]" class="form-control">
+              <option value="">Seleccione producto</option>
+              {% for p in productos %}
+              <option value="{{ p.id }}">{{ p.nombre }} — {{ "%.2f"|format(p.precio) }} €</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group" style="margin:0">
+            <input type="number" name="cantidad[]" class="form-control" min="1" placeholder="Cant.">
+          </div>
+          <div class="linea-spacer"></div>
+        </div>
+        {% endfor %}
+
+        <p class="lineas-hint">Las filas sin producto seleccionado se ignorarán al guardar.</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{% if pedido %}Guardar cambios{% else %}Crear pedido{% endif %}</button>
+        <a href="{{ url_for('pedidos') }}" class="btn btn-outline">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

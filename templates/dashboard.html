@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block topbar_title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="welcome-banner">
+  <h2><span class="status-dot"></span>Bienvenido, {{ session['user'] }}</h2>
+  <p>Panel de control · constructor | microsaas</p>
+</div>
+
+<div class="stats-grid">
+  <a href="{{ url_for('clientes') }}" class="stat-card">
+    <div class="stat-icon s1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+        <path d="M16 3.13a4 4 0 010 7.75"/><path d="M21 21v-2a4 4 0 00-3-3.87"/>
+      </svg>
+    </div>
+    <div>
+      <div class="stat-value">{{ n_clientes }}</div>
+      <div class="stat-label">Clientes</div>
+    </div>
+  </a>
+
+  <a href="{{ url_for('productos') }}" class="stat-card">
+    <div class="stat-icon s2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+        <line x1="12" y1="22.08" x2="12" y2="12"/>
+      </svg>
+    </div>
+    <div>
+      <div class="stat-value">{{ n_productos }}</div>
+      <div class="stat-label">Productos</div>
+    </div>
+  </a>
+
+  <a href="{{ url_for('pedidos') }}" class="stat-card">
+    <div class="stat-icon s3">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+        <rect x="9" y="3" width="6" height="4" rx="1"/>
+        <line x1="9" y1="12" x2="15" y2="12"/>
+        <line x1="9" y1="16" x2="12" y2="16"/>
+      </svg>
+    </div>
+    <div>
+      <div class="stat-value">{{ n_pedidos }}</div>
+      <div class="stat-label">Pedidos</div>
+    </div>
+  </a>
+
+  <div class="stat-card">
+    <div class="stat-icon s4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="1" x2="12" y2="23"/>
+        <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+      </svg>
+    </div>
+    <div>
+      <div class="stat-value">{{ "%.0f"|format(total_ventas) }}&thinsp;€</div>
+      <div class="stat-label">Facturación</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Accesos rápidos</div>
+  </div>
+  <div class="card-body" style="display:flex; gap:10px; flex-wrap:wrap;">
+    <a href="{{ url_for('cliente_nuevo') }}" class="btn btn-primary btn-sm">Nuevo cliente</a>
+    <a href="{{ url_for('producto_nuevo') }}" class="btn btn-teal btn-sm">Nuevo producto</a>
+    <a href="{{ url_for('pedido_nuevo') }}" class="btn btn-outline btn-sm">Nuevo pedido</a>
+  </div>
+</div>
+
+{% endblock %}

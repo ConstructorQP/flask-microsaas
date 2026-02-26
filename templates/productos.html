@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Productos{% endblock %}
+{% block topbar_title %}Productos{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">Productos</h1>
+  <div class="page-actions">
+    <a href="{{ url_for('productos_exportar_excel') }}" class="btn btn-excel btn-sm">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      Exportar Excel
+    </a>
+    <a href="{{ url_for('productos_exportar_pdf') }}" class="btn btn-pdf btn-sm">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>
+      Exportar PDF
+    </a>
+    <a href="{{ url_for('producto_nuevo') }}" class="btn btn-teal btn-sm">Nuevo producto</a>
+  </div>
+</div>
+
+<div class="card">
+  {% if productos %}
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in productos %}
+        <tr>
+          <td style="color:var(--gray-400); font-size:.8rem;">{{ p.id }}</td>
+          <td style="font-weight:600; color:var(--gray-800);">{{ p.nombre }}</td>
+          <td style="color:var(--gray-500);">{{ p.descripcion or '—' }}</td>
+          <td style="font-weight:700; color:var(--teal-700);">{{ "%.2f"|format(p.precio) }} €</td>
+          <td>
+            <span style="background:var(--teal-50); color:var(--teal-600); padding:3px 10px; border-radius:20px; font-size:.78rem; font-weight:600; border:1px solid var(--teal-100);">
+              {{ p.stock }} uds.
+            </span>
+          </td>
+          <td>
+            <div class="td-actions">
+              <a href="{{ url_for('producto_editar', id=p.id) }}" class="btn btn-ghost btn-sm">Editar</a>
+              <a href="{{ url_for('producto_eliminar', id=p.id) }}" class="btn btn-danger btn-sm"
+                 onclick="return confirm('¿Confirma eliminar este producto?')">Eliminar</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+      </svg>
+    </div>
+    <p>No hay productos registrados.</p>
+    <a href="{{ url_for('producto_nuevo') }}" class="btn btn-teal btn-sm">Crear el primero</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

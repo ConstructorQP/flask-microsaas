@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>constructor | microsaas — {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="{{ url_for('dashboard') }}">
+        <div class="sidebar-brand">
+          <div class="logo-mark">
+            <svg viewBox="0 0 20 20" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="7" height="7" rx="1.5"/>
+              <rect x="11" y="2" width="7" height="7" rx="1.5"/>
+              <rect x="2" y="11" width="7" height="7" rx="1.5"/>
+              <rect x="11" y="11" width="7" height="7" rx="1.5"/>
+            </svg>
+          </div>
+          <div class="brand-text-wrap">
+            <span class="brand-name-sb">constructor <span class="sep">|</span> ms</span>
+            <span class="brand-sub-sb">microsaas</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Principal</div>
+
+      <a href="{{ url_for('dashboard') }}" class="nav-item {% if active == 'dashboard' %}active{% endif %}">
+        <span class="nav-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="7" height="7" rx="1.5"/>
+            <rect x="11" y="2" width="7" height="7" rx="1.5"/>
+            <rect x="2" y="11" width="7" height="7" rx="1.5"/>
+            <rect x="11" y="11" width="7" height="7" rx="1.5"/>
+          </svg>
+        </span>
+        Dashboard
+      </a>
+
+      <div class="nav-section-label">Gestión</div>
+
+      <a href="{{ url_for('clientes') }}" class="nav-item {% if active == 'clientes' %}active{% endif %}">
+        <span class="nav-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="6" r="3"/>
+            <path d="M2 17c0-3.314 2.686-6 6-6"/>
+            <path d="M14 13v4m-2-2h4"/>
+          </svg>
+        </span>
+        Clientes
+      </a>
+
+      <a href="{{ url_for('productos') }}" class="nav-item {% if active == 'productos' %}active{% endif %}">
+        <span class="nav-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 2L3 6v8l7 4 7-4V6L10 2z"/>
+            <path d="M10 12V22M10 12L3 8M10 12l7-4"/>
+          </svg>
+        </span>
+        Productos
+      </a>
+
+      <a href="{{ url_for('pedidos') }}" class="nav-item {% if active == 'pedidos' %}active{% endif %}">
+        <span class="nav-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="2" width="14" height="16" rx="2"/>
+            <path d="M7 7h6M7 10h6M7 13h4"/>
+          </svg>
+        </span>
+        Pedidos
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="user-avatar">{{ session['user'][0] }}</div>
+        <div>
+          <div class="user-name-sb">{{ session['user'] }}</div>
+          <div class="user-role-sb">Administrador</div>
+        </div>
+      </div>
+      <a href="{{ url_for('logout') }}" class="btn-logout">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 15l4-4-4-4M17 11H7"/>
+          <path d="M7 4H4a1 1 0 00-1 1v10a1 1 0 001 1h3"/>
+        </svg>
+        Cerrar sesión
+      </a>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-title">{% block topbar_title %}{% endblock %}</div>
+      <span class="topbar-badge">constructor · microsaas</span>
+    </header>
+    <main class="content-area">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+</div>
+</body>
+</html>
