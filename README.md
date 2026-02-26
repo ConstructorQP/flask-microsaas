@@ -23,7 +23,7 @@ Incluye pantalla de login con gestión de sesiones y un dashboard con resumen de
 ## Cómo empezar
 
 ```bash
-git clone https://github.com/ConstructorQP/microsaas
+git clone https://github.com/constructor/microsaas
 cd microsaas
 pip install -r requirements.txt
 python app.py
@@ -64,3 +64,7 @@ Coloca un archivo `logo.png` dentro de `static/`. La pantalla de login y el side
 - Los totales de pedido se recalculan en cada guardado — sin datos desactualizados
 - El formulario de pedido tiene 5 filas de línea estáticas por diseño; las filas vacías se ignoran
 - No hay migraciones para este alcance; si cambias el esquema, borra `database.db` y reinicia
+
+## Licencia
+
+MIT
