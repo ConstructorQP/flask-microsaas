@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_file
 import sqlite3, io, os
 from functools import wraps
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = 'constructor_microsaas_secret_2024'
+# La clave se lee de una variable de entorno; si no existe se genera una aleatoria
+app.secret_key = os.environ.get('SECRET_KEY') or os.urandom(24)
 DB_PATH = 'database.db'
 
 # ─── DB ──────────────────────────────────────────────────────────────────────
@@ -40,7 +42,7 @@ def init_db():
         FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
         FOREIGN KEY (producto_id) REFERENCES productos(id))''')
     try:
-        c.execute("INSERT INTO usuarios (username, password) VALUES (?,?)", ('constructor', 'tryme'))
+        c.execute("INSERT INTO usuarios (username, password) VALUES (?,?)", ('constructor', generate_password_hash('tryme')))
     except sqlite3.IntegrityError:
         pass
     conn.commit()
@@ -64,9 +66,9 @@ def login():
     if request.method == 'POST':
         u, p = request.form['username'], request.form['password']
         conn = get_db()
-        user = conn.execute("SELECT * FROM usuarios WHERE username=? AND password=?", (u, p)).fetchone()
+        user = conn.execute("SELECT * FROM usuarios WHERE username=?", (u,)).fetchone()
         conn.close()
-        if user:
+        if user and check_password_hash(user['password'], p):
             session['user'] = u
             return redirect(url_for('dashboard'))
         error = 'Usuario o contraseña incorrectos'
@@ -490,4 +492,4 @@ def pedidos_exportar_pdf():
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    app.run(debug=os.environ.get('FLASK_DEBUG') == '1')

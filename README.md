@@ -23,7 +23,7 @@ Incluye pantalla de login con gestión de sesiones y un dashboard con resumen de
 ## Cómo empezar
 
 ```bash
-git clone https://github.com/constructor/microsaas
+git clone https://github.com/ConstructorQP/microsaas
 cd microsaas
 pip install -r requirements.txt
 python app.py
@@ -31,11 +31,13 @@ python app.py
 
 Abre `http://127.0.0.1:5000` en el navegador.
 
-Credenciales por defecto:
+Credenciales de la cuenta demo (se crean al arrancar por primera vez):
 ```
 usuario: constructor
 contraseña: tryme
 ```
+
+> Son credenciales de demostración para probar la app en local. No uses esta configuración en producción.
 
 ## Estructura del proyecto
 
@@ -64,6 +66,18 @@ Coloca un archivo `logo.png` dentro de `static/`. La pantalla de login y el side
 - Los totales de pedido se recalculan en cada guardado — sin datos desactualizados
 - El formulario de pedido tiene 5 filas de línea estáticas por diseño; las filas vacías se ignoran
 - No hay migraciones para este alcance; si cambias el esquema, borra `database.db` y reinicia
+
+## Seguridad
+
+- Las contraseñas se guardan con hash (`werkzeug.security`), nunca en texto plano.
+- La clave de sesión se lee de la variable de entorno `SECRET_KEY`. Si no está definida, se genera una aleatoria en cada arranque.
+- Las consultas a la base de datos usan parámetros (`?`) para evitar inyección SQL.
+- El modo debug solo se activa con `FLASK_DEBUG=1`.
+
+```bash
+export SECRET_KEY="una-clave-larga-y-aleatoria"
+python app.py
+```
 
 ## Licencia
 
