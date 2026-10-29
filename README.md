@@ -23,8 +23,8 @@ Incluye pantalla de login con gestión de sesiones y un dashboard con resumen de
 ## Cómo empezar
 
 ```bash
-git clone https://github.com/ConstructorQP/microsaas
-cd microsaas
+git clone https://github.com/ConstructorQP/flask-microsaas
+cd flask-microsaas
 pip install -r requirements.txt
 python app.py
 ```
